@@ -2,6 +2,11 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
+// Generate elments for each task stage, To Do, In Progress, and Done
+let $toDoElement = $("#todo-cards").addClass('.lane').attr('background-color', 'gray');
+let $inProgressElement = $("#in-progress-cards").addClass('.lane');
+let $doneElement = $("#done-cards").addClass('.lane');
+
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
 
