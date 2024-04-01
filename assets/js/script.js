@@ -47,9 +47,8 @@ function renderTaskList() {
     $doneElement.empty();
 
     // Loop through the task list and append each task to the appropriate lane
-    for (let i = 0; i < taskList.length; i++) {
-        let task = taskList[i];
-        let $taskCard = createTaskCard(task);
+    for (items in taskList) {
+        card = createTaskCard(items)
 
         // Append the task card to the appropriate lane
         if (task.status === "To Do") {
@@ -63,9 +62,11 @@ function renderTaskList() {
 
     // Make the cards draggable and create a visual helper for dragging
     $(".dragTask").draggable({
+        zIndex: 100,
+        opacity: 0.5,
         helper: function(event){
-            let clone = $(event.target).hasClass('.dragTask') ? $(event.target) : $(event.target).closest('.dragTask');
-            return clone.clone().css('width', '200px');
+            let originalcard = $(event.target).hasClass('.dragTask') ? $(event.target) : $(event.target).closest('.dragTask');
+            return originalcard.clone().css({width: originalcard.outerWidth(),});
         }
     });
 
@@ -76,22 +77,21 @@ function handleAddTask(event){
     event.preventDefault();
 
     // Get the values from the form
-    let title = $("#title").val().trim();
-    let description = $("#description").val().trim();
-    let dueDate = $("#due-date").val();
-    let status = "To Do";
-
+    let title = document.querySelector("#title");
+    let description = document.querySelector("#description");
+    let dueDate = document.querySelector("#due-date");
 
     // New task Id
     generateTaskId();
 
     // Create a new task object
     let newTask = {
+        title: title.value,
+        date: dueDate.value,
+        description: description.value,
         id: nextId,
-        title: title,
-        description: description,
-        dueDate: dueDate,
-        status: status
+        status: "To Do"
+
     };
 
     // Clear the form
@@ -159,5 +159,25 @@ function cardDue(dueDate) {
 };
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+    // add listener to exectue handleAddTask function
+    $("#add-task").on("click", handleAddTask);
+
+    //  add listener to execute handleDeleteTask function
+    $('.container').on("click", ".delete-task", handleDeleteTask);
+
+    // add date picker to due date field
+    $("#due-date").datepicker({
+        changeMonth: true,
+        changeYear: true,
+    });
+
+    // make lanes droppable
+    $(".lane").droppable({
+        accept: ".dragTask",
+        drop: handleDrop
+    });
+
+    // render the task list
+    renderTaskList();
 
 });
