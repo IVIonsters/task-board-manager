@@ -38,12 +38,73 @@ function createTaskCard(task) {
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
 
+    //Tasks from local storage
+    taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    // Clear the task list
+    $toDoElement.empty();
+    $inProgressElement.empty();
+    $doneElement.empty();
+
+    // Loop through the task list and append each task to the appropriate lane
+    for (let i = 0; i < taskList.length; i++) {
+        let task = taskList[i];
+        let $taskCard = createTaskCard(task);
+
+        // Append the task card to the appropriate lane
+        if (task.status === "To Do") {
+            $toDoElement.append($taskCard);
+        } else if (task.status === "In Progress") {
+            $inProgressElement.append($taskCard);
+        } else {
+            $doneElement.append($taskCard);
+        }
+    }
+
+    // Make the cards draggable and create a visual helper for dragging
+    $(".dragTask").draggable({
+        helper: function(event){
+            let clone = $(event.target).hasClass('.dragTask') ? $(event.target) : $(event.target).closest('.dragTask');
+            return clone.clone().css('width', '200px');
+        }
+    });
+
 }
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
+    event.preventDefault();
 
+    // Get the values from the form
+    let title = $("#title").val().trim();
+    let description = $("#description").val().trim();
+    let dueDate = $("#due-date").val();
+    let status = "To Do";
+
+
+    // New task Id
+    generateTaskId();
+
+    // Create a new task object
+    let newTask = {
+        id: nextId,
+        title: title,
+        description: description,
+        dueDate: dueDate,
+        status: status
+    };
+
+    // Clear the form
+    document.getElementById("task-form").reset();
+
+    // Add the new task to the task list and push to local storage
+    taskList.push(newTask);
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+
+    // Render the task list
+    renderTaskList();
 }
+
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
