@@ -1,4 +1,4 @@
-# PROJECT REPO TITLE HERE
+# Task Board Management Tool
 
 ## Table of Contents
 
@@ -11,7 +11,8 @@
 
 
 ## Description
-    INSERT PROJECT DESCRIPTION HERE MAHNNNNNNN
+    Task board management tool designed to help keep track of To-Do, In-Progress and Done tasks, set specifically by the user. Allows user to select a title , date and insert content.
+
 ## Languages
 
 * ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
@@ -20,20 +21,19 @@
 
 ## Features
 
-* **DEFINE FEATURES MAN:** DESCRIBE FEATURES HERE BRUH --- IT IS THE WAY BRUH
-* **DEFINE FEATURES MAN:** DESCRIBE FEATURES HERE BRUH --- IT IS THE WAY BRUH
-* **DEFINE FEATURES MAN:** DESCRIBE FEATURES HERE BRUH --- IT IS THE WAY BRUH
-* **DEFINE FEATURES MAN:** DESCRIBE FEATURES HERE BRUH --- IT IS THE WAY BRUH
-* **DEFINE FEATURES MAN.:** DESCRIBE FEATURES HERE BRUH --- IT IS THE WAY BRUH
-* **DEFINE FEATURES MAN:** DESCRIBE FEATURES HERE BRUH --- IT IS THE WAY BRUH
+* **Advanced Tasks Function:** Add task has ability to add title, pick a date and set content.
+* **Auto-Delete-Function:** Tasks marked Done, will be automatically deleted upon refresh.
+* **Color-Coded Cards:** Tasks cards are color coded to represent different stages of tasks.
+* **Multi-Stage Progress:** Task board features 3 different stages of "progression" To Do, In Progress, and Done
+* **Automatic card generation, Automated Functoins:** Fully automated JavaScript to handle all functions in application from Add Task button.
 
 ## Usage
 
-* EXPLAIN GENERAL DESIGN USAGE
+* Add task will allow you to add a new task with a title, due date selection, and content for task. Tasks set into the done category will also auto delete on refresh. Cards have draggable function and can be drag and drop style placement into each category.
 
-* [LIVE PROJECT LINK HERE](https://ivionsters.github.io/IVIonsters-Designs-Blog/)
+* [task-board-manager-live-link](https://ivionsters.github.io/task-board-manager/)
 
-* [REPO LINK GOES HERE](https://github.com/IVIonsters/IVIonsters-Designs-Blog)
+* [task-board-manager-repo-link](https://github.com/IVIonsters/task-board-manager)
 
 * ![SCREENSHOTS GO HERE](./assets/refimages/lightmodemain.png)
 * ![SCRENSHOTS HERE](./assets/refimages/lightmodeblog.png)
