@@ -77,12 +77,12 @@ function handleAddTask(event){
     event.preventDefault();
 
     // Get the values from the form
-    let title = document.querySelector("#title");
-    let description = document.querySelector("#description");
-    let dueDate = document.querySelector("#due-date");
+    let title = document.querySelector("#titleInput");
+    let description = document.querySelector("#taskInput");
+    let dueDate = document.querySelector("#dateInput");
 
     // New task Id
-    generateTaskId();
+    let nextId = generateTaskId();
 
     // Create a new task object
     let newTask = {
@@ -90,12 +90,12 @@ function handleAddTask(event){
         date: dueDate.value,
         description: description.value,
         id: nextId,
-        status: "To Do"
+        status: "to-do"
 
     };
 
     // Clear the form
-    document.getElementById("task-form").reset();
+    document.getElementById("form").reset();
 
     // Add the new task to the task list and push to local storage
     taskList.push(newTask);
