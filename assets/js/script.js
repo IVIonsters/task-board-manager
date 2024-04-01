@@ -108,11 +108,13 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-    let deleteID = event.target.getAttribute("data-id");
+    let deleteID = event.target.id;
     let updatedTaskList = Json.parse(localStorage.getItem("tasks"));
 
     // Filter out the task to delete
-    updatedTaskList = updatedTaskList.filter(task => task.id !== parseInt(deleteID));
+    if (task.id === deleteID) {
+        taskList.splice(taskList.indexOf(task), 1);
+    }
 
     // Update the task list in local storage
     localStorage.setItem("tasks", JSON.stringify(updatedTaskList));
@@ -126,16 +128,16 @@ function handleDeleteTask(event){
 function handleDrop(event, ui) {
 
     // Get the task id and new status
-    let taskId = ui.draggable.attr("id");
+    let taskId = ui.draggable[0].id;
     let newStatus = event.target.id;
+    let updateTask = JSON.parse(localStorage.getItem("tasks"));
 
     // Update the task status
-    taskList = taskList.map(task => {
-        if (task.id === parseInt(taskId)) {
+    for (task in updateTask) {
+        if (task.id === taskId) {
             task.status = newStatus;
         }
-        return task;
-    });
+    }
 
     // Update the task list in local storage
     localStorage.setItem("tasks", JSON.stringify(taskList));
@@ -145,36 +147,38 @@ function handleDrop(event, ui) {
 }
 // Create a function to return class depending on task status
 function cardDue(dueDate) {
-    let today = new Date();
-    let taskDate = new Date(dueDate);
-    let statusClass = "";
+    let today = dayjs();
+    let taskDate = dayjs(dueDate);
 
-    if (taskDate < today) {
-        statusClass = "overdue";
-    } else if (taskDate.getDate() === today.getDate()) {
-        statusClass = "due-today";
+    // generate difference between task date and today
+    let difference = today.diff(taskDate, "day");
+
+    if (difference > 1) {
+        return "card-overdue";
+    } else if (difference > 0 && difference <= 1) {
+        return "card-due-today";
     } else {
-        statusClass = "upcoming ";
-    }
+        return "card-upcoming";
 };
+}
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
     // add listener to exectue handleAddTask function
-    $("#add-task").on("click", handleAddTask);
+    $("#saveTask").on("click", handleAddTask);
 
     //  add listener to execute handleDeleteTask function
-    $('.container').on("click", ".delete-task", handleDeleteTask);
+    $(".container").on("click", handleDeleteTask);
 
     // add date picker to due date field
-    $("#due-date").datepicker({
+    $("#dateInput").datepicker({
         changeMonth: true,
         changeYear: true,
     });
 
     // make lanes droppable
     $(".lane").droppable({
-        accept: ".dragTask",
-        drop: handleDrop
+        aceppt: ".dragTask",
+        drop: handleDrop,
     });
 
     // render the task list
