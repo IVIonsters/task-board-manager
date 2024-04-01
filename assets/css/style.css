@@ -14,3 +14,19 @@ body {
 .task-card:hover {
   cursor: grab;
 }
+
+
+/* -------------------------My CSS Styles----------------------------- */
+
+.overdue {
+  background-color: red;
+  color: white;
+}
+
+.due-today {
+  background-color: yellow;
+}
+
+.upcoming {
+  background-color: green;
+}

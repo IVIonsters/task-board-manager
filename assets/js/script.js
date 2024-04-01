@@ -108,14 +108,55 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
+    let deleteID = event.target.getAttribute("data-id");
+    let updatedTaskList = Json.parse(localStorage.getItem("tasks"));
+
+    // Filter out the task to delete
+    updatedTaskList = updatedTaskList.filter(task => task.id !== parseInt(deleteID));
+
+    // Update the task list in local storage
+    localStorage.setItem("tasks", JSON.stringify(updatedTaskList));
+
+    // Render the task list
+    renderTaskList();
 
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
 
-}
+    // Get the task id and new status
+    let taskId = ui.draggable.attr("id");
+    let newStatus = event.target.id;
 
+    // Update the task status
+    taskList = taskList.map(task => {
+        if (task.id === parseInt(taskId)) {
+            task.status = newStatus;
+        }
+        return task;
+    });
+
+    // Update the task list in local storage
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+
+    // Render the task list
+    renderTaskList();
+}
+// Create a function to return class depending on task status
+function cardDue(dueDate) {
+    let today = new Date();
+    let taskDate = new Date(dueDate);
+    let statusClass = "";
+
+    if (taskDate < today) {
+        statusClass = "overdue";
+    } else if (taskDate.getDate() === today.getDate()) {
+        statusClass = "due-today";
+    } else {
+        statusClass = "upcoming ";
+    }
+};
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
