@@ -107,22 +107,20 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-    let deleteID = event.target.id;
-    let updatedTaskList = Json.parse(localStorage.getItem("tasks"));
+    // Get the id of the task to delete
+    let deleteID = $(event.target).closest('.delete-task').attr('id');
+
+    // Get the task list from local storage
+    let taskList = JSON.parse(localStorage.getItem("tasks"));
 
     // Filter out the task to delete
-    updatedTaskList.foreach((task) => {
-    if (task.id === deleteID) {
-        taskList.splice(taskList.indexOf(task), 1);
-    }
-});
+    taskList = taskList.filter((task) => task.id !== deleteID);
 
     // Update the task list in local storage
-    localStorage.setItem("tasks", JSON.stringify(updatedTaskList));
+    localStorage.setItem("tasks", JSON.stringify(taskList));
 
     // Render the task list
     renderTaskList();
-
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
@@ -168,7 +166,22 @@ $(document).ready(function () {
     $("#saveTask").on("click", handleAddTask);
 
     //  add listener to execute handleDeleteTask function
-    $(".container").on("click", '.delete-task', handleDeleteTask);
+    $(".container").on("click", '.delete-task', function(event) {
+    // Get the id of the task to delete
+    let deleteID = $(event.target).closest('.card').attr('id');
+
+    // Get the task list from local storage
+    let taskList = JSON.parse(localStorage.getItem("tasks"));
+
+    // Filter out the task to delete
+    taskList = taskList.filter((task) => task.id !== deleteID);
+
+    // Update the task list in local storage
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+
+    // Remove the task from the DOM
+    $(event.target).closest('.card').remove();
+});
 
     // add date picker to due date field
     $("#dateInput").datepicker({
