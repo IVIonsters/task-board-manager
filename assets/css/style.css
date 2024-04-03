@@ -19,12 +19,12 @@ body {
 /* -------------------------My CSS Styles----------------------------- */
 
 .overdue {
-  background-color: red;
+  background-color: rgb(255, 100, 100);
   color: white;
 }
 
 .due-today {
-  background-color: yellow;
+  background-color: rgb(252, 252, 102);
 }
 
 .upcoming {
