@@ -2,7 +2,7 @@
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 let nextId = JSON.parse(localStorage.getItem("nextId")) || 0;
 
-// Generate elments for each task stage, To Do, In Progress, and Done
+// Generate elements for each task stage, To Do, In Progress, and Done
 let $toDoElement = $("#todo-cards").addClass('.lane').attr('background-color', 'gray');
 let $inProgressElement = $("#in-progress-cards").addClass('.lane');
 let $doneElement = $("#done-cards").addClass('.lane');
@@ -37,7 +37,6 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-
     //Tasks from local storage
     taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -47,8 +46,8 @@ function renderTaskList() {
     $doneElement.empty();
 
     // Loop through the task list and append each task to the appropriate lane
-    for (task in taskList) {
-    let card = createTaskCard(task)
+    for (let task of taskList) {
+        let card = createTaskCard(task);
 
         // Append the task card to the appropriate lane
         if (task.status === "to-do") {
@@ -69,7 +68,6 @@ function renderTaskList() {
             return originalcard.clone().css({width: originalcard.outerWidth(),});
         }
     });
-
 }
 
 // Todo: create a function to handle adding a new task
@@ -166,7 +164,7 @@ function cardDue(dueDate) {
 }
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-    // add listener to exectue handleAddTask function
+    // add listener to execute handleAddTask function
     $("#saveTask").on("click", handleAddTask);
 
     //  add listener to execute handleDeleteTask function
@@ -178,11 +176,14 @@ $(document).ready(function () {
         changeYear: true,
     });
 
-    // make lanes droppable
-    $(".lane").droppable({
-        aceppt: ".dragTask",
-        drop: handleDrop,
-    });
+    // Make the .lane elements droppable
+$(".lane").droppable({
+    accept: ".dragTask", 
+    drop: function(event, ui) {
+        // Append the dragged card to the lane
+        ui.draggable.detach().appendTo($(this));
+    }
+});
 
     // render the task list
     renderTaskList();
