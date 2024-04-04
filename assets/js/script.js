@@ -39,17 +39,15 @@
 
 // Todo: create a function to render the task list and make cards draggable.
 // Function to renderTaskList - empty the task list elements, create a card for each task, and append to the appropriate lane.
-    // Function to renderTaskList
-// Function to renderTaskList
-function renderTaskList() {
-    $toDoElement.empty();
-    $inProgressElement.empty();
-    $doneElement.empty();
+    function renderTaskList() {
+        $toDoElement.empty();
+        $inProgressElement.empty();
+        $doneElement.empty();
 
-    // Retrieve tasks from local storage
+// Retrieve tasks from local storage
     taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    // Loop through the task list and create cards
+// Loop through the task list and create cards
     for (let task of taskList) {
         let card = createTaskCard(task);
         if (task.status === "to-do") {
@@ -61,7 +59,7 @@ function renderTaskList() {
         }
     }
 
-    // Make the cards draggable and create a visual clone for dragging effect
+ // Make the cards draggable and create a visual clone for dragging effect
     $(".dragTask").draggable({
         zIndex: 100,
         opacity: 0.5,
@@ -88,7 +86,7 @@ function renderTaskList() {
 // New task Id
     let newId = generateTaskId();
 
- // Create a new task object
+// Create a new task object
     let newTask = {
         title: titleE,
         dueDate: dueDate,
@@ -97,7 +95,7 @@ function renderTaskList() {
         status: "to-do"
     };
 
- // Clear the form
+// Clear the form
     $("#form").trigger("reset");
 
 // Add the new task to the task list and push to local storage
@@ -120,41 +118,41 @@ function renderTaskList() {
     }
 
 // Function to handle dropping a task into a new status lane
-function handleDrop(event, ui) {
-    let taskId = ui.draggable[0].id;
-    let newStatus = event.target.id;
-    let updateTask = JSON.parse(localStorage.getItem('tasks'));
+    function handleDrop(event, ui) {
+        let taskId = ui.draggable[0].id;
+        let newStatus = event.target.id;
+        let updateTask = JSON.parse(localStorage.getItem('tasks'));
 
-    // Update the task status
+// Update the task status
     for (let task of updateTask) {
         if (task.id === taskId) {
             task.status = newStatus;
         }
     }
 
-    // Update the task list in local storage
+ // Update the task list in local storage
     localStorage.setItem("tasks", JSON.stringify(updateTask));
 
-    // Render the task list
+// Render the task list
     renderTaskList();
 }
 
 
 // Todo: create a function to handle dropping a task into a new status lane
 // Function to handle dropping a task into a new status lane
-function handleDrop(event, ui) {
-    let taskId = ui.draggable[0].id;
-    let newStatus = event.target.id;
-    let updateTask = JSON.parse(localStorage.getItem('tasks'));
+    function handleDrop(event, ui) {
+        let taskId = ui.draggable[0].id;
+        let newStatus = event.target.id;
+        let updateTask = JSON.parse(localStorage.getItem('tasks'));
 
-    // Update the task status
+// Update the task status
     for (let task of updateTask) {
         if (task.id === taskId) {
             task.status = newStatus;
         }
     }
 
-    // Update the task list in local storage
+// Update the task list in local storage
     localStorage.setItem("tasks", JSON.stringify(updateTask));
 
     // Render the task list
@@ -163,9 +161,9 @@ function handleDrop(event, ui) {
 
 
 // Create a function to return class depending on task status
-function cardDue(dueDate) {
-    let today = dayjs();
-    let taskDate = dayjs(dueDate);
+    function cardDue(dueDate) {
+        let today = dayjs();
+        let taskDate = dayjs(dueDate);
 // Calculate the difference between the due date and today
     let difference = today.diff(taskDate, 'd', true);
 // Return the class based on the difference
@@ -191,14 +189,34 @@ $(document).ready(function () {
         changeYear: true,
     });
 
-    // Make the .lane elements droppable
-$(".lane").droppable({
-    accept: ".dragTask", 
-    drop: function(event, ui) {
-        // Append the dragged card to the lane
-        ui.draggable.detach().appendTo($(this));
+ // Make the .lane elements droppable
+    $(".lane").droppable({
+        accept: ".dragTask", 
+        drop: function(event, ui) {
+// Get the id of the task that was moved
+    let movedTaskID = Number($(ui.draggable).attr('id'));
+
+// Get the status of the lane that the task was dropped into
+    let newStatus = $(this).attr('id');
+
+// Get the task list from local storage
+    let taskList = JSON.parse(localStorage.getItem("tasks"));
+
+// Find the task that was moved and update its status
+    for (let task of taskList) {
+        if (task.id === movedTaskID) {
+            task.status = newStatus;
+            break;
+        }
     }
-});
+
+// Save the updated task list back to local storage
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+
+// Append the dragged task to the lane
+    ui.draggable.detach().appendTo($(this));
+        }
+    });
 
     // render the task list
     renderTaskList();
