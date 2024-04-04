@@ -11,7 +11,7 @@
 
 
 ## Description
-    Task board management tool designed to help keep track of To-Do, In-Progress and Done tasks, set specifically by the user. Allows user to select a title , date and insert content.
+Task board management tool designed to help keep track of To-Do, In-Progress and Done tasks, set specifically by the user. Allows user to select a title , date and insert content.
 
 ## Languages
 
@@ -35,8 +35,8 @@
 
 * [task-board-manager-repo-link](https://github.com/IVIonsters/task-board-manager)
 
-* ![SCREENSHOTS GO HERE](./assets/refimages/lightmodemain.png)
-* ![SCRENSHOTS HERE](./assets/refimages/lightmodeblog.png)
+* ![SCREENSHOTS GO HERE](./assets/Images/Task%20Board%20-%20Google%20Chrome%202024-04-03%2022-25-48.gif)
+* ![SCREENSHOTS HERE](./assets/Images/screencapture-127-0-0-1-5500-index-html-2024-04-03-22_32_13%20(1).png)
 
 
 ## Credits
