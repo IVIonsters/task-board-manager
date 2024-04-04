@@ -213,6 +213,14 @@ $(document).ready(function () {
 // Save the updated task list back to local storage
     localStorage.setItem("tasks", JSON.stringify(taskList));
 
+// Conditional state to change the class of the card based on the new status
+//This will change the color of the card when moved in or out of the "done" lane
+    if (newStatus === "done") {
+        $(ui.draggable).addClass("upcoming");
+    } else {
+        $(ui.draggable).removeClass("upcoming");
+    }
+
 // Append the dragged task to the lane
     ui.draggable.detach().appendTo($(this));
         }
