@@ -39,32 +39,41 @@
 
 // Todo: create a function to render the task list and make cards draggable.
 // Function to renderTaskList - empty the task list elements, create a card for each task, and append to the appropriate lane.
-    function renderTaskList() {
-        $toDoElement.empty();
-        $inProgressElement.empty();
-        $doneElement.empty();
+    // Function to renderTaskList
+// Function to renderTaskList
+function renderTaskList() {
+    $toDoElement.empty();
+    $inProgressElement.empty();
+    $doneElement.empty();
 
-// Loop through the task list and create a card for each task based on status.
-        for (let task of taskList) {
-            let card = createTaskCard(task);
-            if (task.status === "to-do") {
-                $toDoElement.append(card);
-            } else if (task.status === "in-progress") {
-                $inProgressElement.append(card);
-            } else {
-                $doneElement.append(card);
-            }
+    // Retrieve tasks from local storage
+    taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    // Loop through the task list and create cards
+    for (let task of taskList) {
+        let card = createTaskCard(task);
+        if (task.status === "to-do") {
+            $toDoElement.append(card);
+        } else if (task.status === "in-progress") {
+            $inProgressElement.append(card);
+        } else {
+            $doneElement.append(card);
         }
-// Make the cards draggable and create a visual clone for dragging effect.
-        $(".dragTask").draggable({
-            zIndex: 100,
-            opacity: 0.5,
-            helper: function(event){
-                let originalcard = $(event.target).hasClass('.dragTask') ? $(event.target) : $(event.target).closest('.dragTask');
-                return originalcard.clone().css({width: originalcard.outerWidth(),});
-            }
-        });
+    }
+
+    // Make the cards draggable and create a visual clone for dragging effect
+    $(".dragTask").draggable({
+        zIndex: 100,
+        opacity: 0.5,
+        helper: function(event) {
+            let originalcard = $(event.target).hasClass('dragTask') ? $(event.target) : $(event.target).closest('.dragTask');
+            return originalcard.clone().css({
+                width: originalcard.outerWidth(),
+            });
+        }
+    });
 }
+
 
 // Todo: create a function to handle adding a new task
 // Function to handleAddTask - prevent default form submission, get values from form, create a new task object, clear the form, add the new task to the task list, and push to local storage.
@@ -111,35 +120,17 @@
     }
 
 // Function to handle dropping a task into a new status lane
-    function handleDrop(event, ui) {
-        let taskId = ui.draggable[0].id;
-        let newStatus = event.target.id;
-        let updateTask = JSON.parse(localStorage.getItem('tasks'));
-// Update the task status
-        for (let task of updateTask) {
-            if (task.id === taskId) {
-                task.status = newStatus;
-            }
+function handleDrop(event, ui) {
+    let taskId = ui.draggable[0].id;
+    let newStatus = event.target.id;
+    let updateTask = JSON.parse(localStorage.getItem('tasks'));
+
+    // Update the task status
+    for (let task of updateTask) {
+        if (task.id === taskId) {
+            task.status = newStatus;
         }
-// Update the task list in local storage
-    localStorage.setItem("tasks", JSON.stringify(updateTask));
-    renderTaskList();
-}
-
-
-// Todo: create a function to handle dropping a task into a new status lane
-    function handleDrop(event, ui) {
-// Get the task id and new status
-        let taskId = ui.draggable[0].id;
-        let newStatus = event.target.id;
-        let updateTask = JSON.parse(localStorage.getItem('tasks'));
-
-// Update the task status
-        for (let task of updateTask) {
-            if (task.id === taskId) {
-                task.status = newStatus;
-            }
-        }
+    }
 
     // Update the task list in local storage
     localStorage.setItem("tasks", JSON.stringify(updateTask));
@@ -147,6 +138,29 @@
     // Render the task list
     renderTaskList();
 }
+
+
+// Todo: create a function to handle dropping a task into a new status lane
+// Function to handle dropping a task into a new status lane
+function handleDrop(event, ui) {
+    let taskId = ui.draggable[0].id;
+    let newStatus = event.target.id;
+    let updateTask = JSON.parse(localStorage.getItem('tasks'));
+
+    // Update the task status
+    for (let task of updateTask) {
+        if (task.id === taskId) {
+            task.status = newStatus;
+        }
+    }
+
+    // Update the task list in local storage
+    localStorage.setItem("tasks", JSON.stringify(updateTask));
+
+    // Render the task list
+    renderTaskList();
+}
+
 
 // Create a function to return class depending on task status
 function cardDue(dueDate) {
@@ -190,3 +204,4 @@ $(".lane").droppable({
     renderTaskList();
 
 });
+
